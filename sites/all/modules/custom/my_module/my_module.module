@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file my_module.module
+ * TODO: Enter file description here.
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function my_module_permission() {
+  $permissions = array();
+  
+  $permissions['access'] = array(
+    'title' => t('TODO: enter permission title'),
+    'description' => t('TODO: enter permission description'),
+  );
+  $permissions['content,'] = array(
+    'title' => t('TODO: enter permission title'),
+    'description' => t('TODO: enter permission description'),
+  );
+  $permissions['access'] = array(
+    'title' => t('TODO: enter permission title'),
+    'description' => t('TODO: enter permission description'),
+  );
+  $permissions['site'] = array(
+    'title' => t('TODO: enter permission title'),
+    'description' => t('TODO: enter permission description'),
+  );
+  $permissions['configuration'] = array(
+    'title' => t('TODO: enter permission title'),
+    'description' => t('TODO: enter permission description'),
+  );
+  $permissions['administer my_module'] = array(
+    'title' => t('TODO: enter permission title'),
+    'description' => t('TODO: enter permission description'),
+  );
+  return $permissions;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function my_module_menu() {
+  $items = array();
+  
+  $items['admin/config/TODO-SECTION/my_module'] = array(
+    'title' => 'Administer My Module',
+    'description' => 'Configure settings for My Module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('my_module_settings_form'),
+    'access arguments' => array('administer my_module'),
+    'file' => 'my_module.admin.inc',
+  );
+  return $items;
+}

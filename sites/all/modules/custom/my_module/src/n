@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Contains Drupal\My_module\N.
+ */
+
+namespace Drupal\My_module
+
+/**
+ * TODO: class docs.
+ */
+class N {
+
+}

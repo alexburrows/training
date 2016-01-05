@@ -1,0 +1,38 @@
+<?php
+/**
+ * Installs submission form.
+ */
+
+function submission_form_schema() {
+  $schema['submission_form'] = array(
+    'description' => 'Submission form information',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'first_name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'email' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'options' => array(
+        'type' => 'varchar',
+        'length' => 100,
+        'not null' => TRUE,
+      ),
+      'hidden_fields' => array(
+        'type' => 'int',
+        'length' => 5,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  return $schema;
+}

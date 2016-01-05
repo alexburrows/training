@@ -1,0 +1,6 @@
+name = User login alter
+description = Modifies form items on user login
+core = 7.x
+package = Custom
+dependencies[] = views
+dependencies[] = panels

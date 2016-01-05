@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Allows alteration of userlogin fields.
+ */
+
+function userlogin_alter_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login':
+      $form['name']['#type'] = 'select';
+      $form['name']['#options'] = array(
+        t('User 1'),
+        t('User 2'),
+      );
+      $form['topcopy'] = array(
+        '#markup' => '<div id="topcopy">' . t('Hello') . '</div>',
+        '#weight' => -10,
+      );
+      krumo($form);
+      break;
+  }
+}

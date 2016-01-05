@@ -1,0 +1,118 @@
+<?php
+/**
+ * @file
+ * Submits form data.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function submission_form_menu() {
+  $items = array();
+  $items['submit-form'] = array(
+    'title' => 'Submit form',
+    'access arguments' => array('access content'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('submission_form_menu_form'),
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_form().
+ */
+function submission_form_menu_form($form_id, &$form_state) {
+  $cars = submission_form_cars_load();
+
+  $form = array();
+  $form['first_name'] = array(
+    '#title' => t('First name'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['email'] = array(
+    '#title' => t('Email'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+  );
+  $form['email2'] = array(
+    '#title' => t('Email verify'),
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#default_value' => t('Email2 copy'),
+    '#placeholder' => t('Hello'),
+  );
+  $form['selectlist'] = array(
+    '#type' => 'select',
+    '#title' => t('Option list'),
+    '#options' => $cars,
+  );
+  $form['option1'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Show hidden fields',
+    '#description' => t('Shows hidden fields options'),
+  );
+  $form['hiddenoptions'] = array(
+    '#type' => 'radios',
+    '#title' => t('Hidden options'),
+    '#options' => array('1', '2', '3'),
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="option1"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit form'),
+    '#submit' => array('submission_form_menu_form_submit'),
+  );
+
+  return $form;
+}
+
+/**
+ * Implements form_validate().
+ * @param $form
+ * @param $form_state
+ */
+function submission_form_menu_form_validate($form, &$form_state) {
+  if ($form_state['values']['email'] != $form_state['values']['email2']) {
+    form_set_error('email', t('Please enter the same email'));
+  }
+}
+
+/**
+ * Implements form_submit().
+ * @param $form
+ * @param $form_state
+ */
+function submission_form_menu_form_submit(&$form, &$form_state) {
+  $name = $form_state['values']['first_name'];
+  $email = $form_state['values']['email'];
+  $options = $form_state['values']['hiddenoptions'];
+
+  drupal_set_message(
+    t('Thanks for submitting @name', array('@name' => $name))
+  );
+  db_insert('submission_form')
+    ->fields(array(
+      'first_name' => $name,
+      'email' => $email,
+      'options' => $options,
+    ))
+    ->execute();
+}
+
+/**
+ * Helper function to return nodes.
+ * @return mixed
+ */
+function submission_form_cars_load() {
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid', 'title'))
+    ->condition('type', 'article')
+    ->execute()
+    ->fetchAllKeyed();
+  return $query;
+}
